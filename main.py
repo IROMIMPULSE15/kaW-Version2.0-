@@ -70,7 +70,7 @@ def send_email(caller_name, reason, phone):
         
     except Exception as e:
         print(f"❌ Failed to send email: {e}")
-        return False
+        return str(e)
 
 @app.post("/exotel")
 async def exotel_webhook(request: Request):
@@ -131,13 +131,14 @@ async def exotel_webhook(request: Request):
         
         del calls[call_sid]
         
-        if email_success:
+        if email_success is True:
             return PlainTextResponse(
                 "Thank you for calling. If the matter is relevant, Mr. Anmol will reach out to you. Goodbye. (Email Sent)"
             )
         else:
+            # error_msg is actually the exception string now
             return PlainTextResponse(
-                "Thank you for calling. If the matter is relevant, Mr. Anmol will reach out to you. Goodbye. (Email Failed - Check Logs)"
+                f"Thank you for calling. If the matter is relevant, Mr. Anmol will reach out to you. Goodbye. (Email Failed: {email_success})"
             )
 
 @app.get("/")
