@@ -139,3 +139,7 @@ async def exotel_webhook(request: Request):
             return PlainTextResponse(
                 "Thank you for calling. If the matter is relevant, Mr. Anmol will reach out to you. Goodbye. (Email Failed - Check Logs)"
             )
+
+@app.get("/")
+async def root():
+    return {"status": "online", "message": "AI Call Assistant is running"}
